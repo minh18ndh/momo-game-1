@@ -29,6 +29,13 @@ const timerEl = document.getElementById("timer");
 const resultEl = document.getElementById("result");
 const sceneEl = document.getElementById("scene");
 
+const ring = document.querySelector("#timer-ring circle");
+const RADIUS = 20;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+ring.style.strokeDasharray = CIRCUMFERENCE;
+ring.style.strokeDashoffset = CIRCUMFERENCE;
+
 // =====================
 // STATE
 // =====================
@@ -106,24 +113,39 @@ function toggleProduct(el, price) {
 // =====================
 // TIMER
 // =====================
+targetEl.classList.add("pulsing");
+
 function startTimer() {
+  const startTime = Date.now();
+  const duration = GAME_TIME * 1000;
+
   const timer = setInterval(() => {
     if (gameOver) return;
 
-    timeLeft--;
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // update number
+    timeLeft = Math.max(0, GAME_TIME - Math.floor(elapsed / 1000));
     timerEl.textContent = timeLeft;
 
-    if (timeLeft <= 0) {
+    // update ring (0 → full)
+    ring.style.strokeDashoffset =
+      CIRCUMFERENCE * (1 - progress);
+
+    if (progress >= 1) {
       clearInterval(timer);
       endGame();
     }
-  }, 1000);
+  }, 50); // smooth animation
 }
 
 // =====================
 // END GAME
 // =====================
 async function endGame() {
+  targetEl.classList.remove("pulsing");
+
   gameOver = true;
   grid.style.pointerEvents = "none";
 
