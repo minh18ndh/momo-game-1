@@ -115,13 +115,15 @@ body {
 
 #fireworks {
   position: absolute;
-  top: 80px;
+  top: 0px;
   left: 50%;
-  transform: translateX(-50%);
 
   width: 100%;
   max-width: 360px;
   height: 300px;
+
+  transform: translateX(-50%) scale(1.4);
+  transform-origin: top center;
 
   pointer-events: none;
   opacity: 0;

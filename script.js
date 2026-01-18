@@ -160,7 +160,7 @@ function playFireworks() {
       renderer: "svg",
       loop: false,
       autoplay: false,
-      path: "images/fireworks.json"
+      path: "images/fireworks_2.json"
     });
   }
 
