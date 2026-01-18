@@ -5,19 +5,22 @@ const TARGET_SUM = 2_000_000;
 const PICK_COUNT = 5;
 const GAME_TIME = 10;
 
+// =====================
+// DATA
+// =====================
 const products = [
-  { price: 150000, img: "images/pomelo.png" },
-  { price: 800000, img: "images/converse.png" },
-  { price: 1500000, img: "images/watch.png" },
-  { price: 350000, img: "images/peach_blossom.png" },
-  { price: 500000, img: "images/ao_dai.png" },
-  { price: 50000, img: "images/non_la.png" },
-  { price: 150000, img: "images/banh_chung.png" },
-  { price: 100000, img: "images/bubble_tea.png" },
-  { price: 1200000, img: "images/camera.png" },
-  { price: 600000, img: "images/lipstick.png" },
-  { price: 650000, img: "images/perfume.png" },
-  { price: 200000, img: "images/lucky_money.png" }
+  { price: 150_000, img: "images/pomelo.png" },
+  { price: 800_000, img: "images/converse.png" },
+  { price: 1_500_000, img: "images/watch.png" },
+  { price: 350_000, img: "images/peach_blossom.png" },
+  { price: 500_000, img: "images/ao_dai.png" },
+  { price: 50_000, img: "images/non_la.png" },
+  { price: 150_000, img: "images/banh_chung.png" },
+  { price: 100_000, img: "images/bubble_tea.png" },
+  { price: 1_200_000, img: "images/camera.png" },
+  { price: 600_000, img: "images/lipstick.png" },
+  { price: 650_000, img: "images/perfume.png" },
+  { price: 200_000, img: "images/lucky_money.png" }
 ];
 
 // =====================
@@ -26,10 +29,13 @@ const products = [
 const grid = document.getElementById("grid");
 const targetEl = document.getElementById("target");
 const timerEl = document.getElementById("timer");
-const resultEl = document.getElementById("result");
 const sceneEl = document.getElementById("scene");
 
 const ring = document.querySelector("#timer-ring circle");
+
+// =====================
+// TIMER RING SETUP
+// =====================
 const RADIUS = 20;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
@@ -46,10 +52,10 @@ let gameOver = false;
 // =====================
 // UTILS
 // =====================
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 }
 
@@ -58,52 +64,52 @@ function shuffle(array) {
 // =====================
 function init() {
   targetEl.textContent = `${TARGET_SUM.toLocaleString()}đ`;
-  timerEl.textContent = timeLeft;
+  timerEl.textContent = GAME_TIME;
+
+  targetEl.classList.add("pulsing");
 
   shuffle(products);
-  createProducts();
+  renderProducts();
   startTimer();
 }
 
 // =====================
-// UI CREATION
+// RENDERING
 // =====================
-function createProducts() {
+function renderProducts() {
   grid.innerHTML = "";
 
   products.forEach(p => {
-    const div = document.createElement("div");
-    div.className = "product";
+    const card = document.createElement("div");
+    card.className = "product";
 
-    div.innerHTML = `
-      <img src="${p.img}" alt="product">
+    card.innerHTML = `
+      <img src="${p.img}" alt="">
       <div class="price">${p.price.toLocaleString()}đ</div>
     `;
 
-    div.addEventListener("pointerdown", () => {
-      toggleProduct(div, p.price);
+    card.addEventListener("pointerdown", () => {
+      toggleProduct(card, p.price);
     });
 
-    grid.appendChild(div);
+    grid.appendChild(card);
   });
 }
 
 // =====================
-// GAME LOGIC
+// SELECTION
 // =====================
 function toggleProduct(el, price) {
   if (gameOver) return;
 
-  const idx = selected.findIndex(p => p.el === el);
+  const idx = selected.findIndex(i => i.el === el);
 
-  // Unselect
   if (idx !== -1) {
     selected.splice(idx, 1);
     el.classList.remove("selected");
     return;
   }
 
-  // Max selection
   if (selected.length >= PICK_COUNT) return;
 
   selected.push({ el, price });
@@ -113,46 +119,39 @@ function toggleProduct(el, price) {
 // =====================
 // TIMER
 // =====================
-targetEl.classList.add("pulsing");
-
 function startTimer() {
-  const startTime = Date.now();
+  const start = Date.now();
   const duration = GAME_TIME * 1000;
 
-  const timer = setInterval(() => {
+  const tick = setInterval(() => {
     if (gameOver) return;
 
-    const elapsed = Date.now() - startTime;
+    const elapsed = Date.now() - start;
     const progress = Math.min(elapsed / duration, 1);
 
-    // update number
     timeLeft = Math.max(0, GAME_TIME - Math.floor(elapsed / 1000));
     timerEl.textContent = timeLeft;
 
-    // update ring (0 → full)
     ring.style.strokeDashoffset =
       CIRCUMFERENCE * (1 - progress);
 
     if (progress >= 1) {
-      clearInterval(timer);
+      clearInterval(tick);
       endGame();
     }
-  }, 50); // smooth animation
+  }, 50);
 }
 
 // =====================
 // END GAME
 // =====================
 async function endGame() {
-  targetEl.classList.remove("pulsing");
-
   gameOver = true;
+  targetEl.classList.remove("pulsing");
   grid.style.pointerEvents = "none";
 
-  // Not enough selected
   if (selected.length !== PICK_COUNT) {
     await fadeOutRemainingProducts();
-
     showScene(
       [
         "Hic chưa chọn đủ món rồi,",
@@ -163,23 +162,19 @@ async function endGame() {
       ],
       "#a20262"
     );
-
     return;
   }
 
   let remaining = TARGET_SUM;
 
-  // Process selected products
   for (const item of selected) {
     await fadeOutProduct(item.el);
     await animateSubtract(item.price, remaining);
     remaining -= item.price;
   }
 
-  // Fade out remaining products
   await fadeOutRemainingProducts();
 
-  // Final scene
   if (remaining === 0) {
     showScene(
       [
@@ -207,7 +202,8 @@ async function endGame() {
       [
         "Ối lỡ tiêu quá tay rồi!!!",
         "",
-        "Tiền chạy nhanh quá, mắt không kịp theo.",
+        "Tiền chạy nhanh quá,",
+        "mắt không kịp theo.",
         "Để MoMo AI Expense Management",
         "theo dõi chi tiêu cùng bạn."
       ],
@@ -230,9 +226,7 @@ function fadeOutProduct(el) {
 }
 
 function fadeOutRemainingProducts() {
-  const allProducts = document.querySelectorAll(".product");
-
-  allProducts.forEach(p => {
+  document.querySelectorAll(".product").forEach(p => {
     if (!p.classList.contains("fade-out")) {
       p.classList.add("fade-out-all");
     }
@@ -246,10 +240,10 @@ function fadeOutRemainingProducts() {
   });
 }
 
-function animateSubtract(amount, startValue) {
+function animateSubtract(amount, start) {
   return new Promise(resolve => {
-    let current = startValue;
-    const end = startValue - amount;
+    let current = start;
+    const end = start - amount;
     const step = Math.max(1, Math.floor(amount / 40));
 
     function tick() {
@@ -258,11 +252,7 @@ function animateSubtract(amount, startValue) {
 
       targetEl.textContent = `${current.toLocaleString()}đ`;
 
-      if (current === end) {
-        resolve();
-      } else {
-        requestAnimationFrame(tick);
-      }
+      current === end ? resolve() : requestAnimationFrame(tick);
     }
 
     tick();
@@ -273,61 +263,53 @@ function animateSubtract(amount, startValue) {
 // SCENE
 // =====================
 function showScene(lines, color) {
-  if (typeof lines === "string") {
-    lines = [lines];
-  }
-
   sceneEl.innerHTML = "";
 
-  const textWrapper = document.createElement("div");
-  textWrapper.style.textAlign = "center";
-  textWrapper.style.color = color;
-  textWrapper.style.fontSize = "22px";
-  textWrapper.style.fontWeight = "600";
-  textWrapper.style.lineHeight = "1.35";
-
-  lines.forEach((line, i) => {
-    const lineEl = document.createElement("div");
-    lineEl.style.fontWeight = "800";
-    lineEl.textContent = line || "\u00A0"; // keep empty line spacing
-    lineEl.style.opacity = "0";
-    lineEl.style.transform = "translateY(10px)";
-    lineEl.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-
-    textWrapper.appendChild(lineEl);
+  const text = document.createElement("div");
+  Object.assign(text.style, {
+    textAlign: "center",
+    color,
+    fontSize: "22px",
+    fontWeight: "800",
+    lineHeight: "1.35"
   });
 
-  const imgEl = document.createElement("img");
-  imgEl.src = "images/qr.png";
-  imgEl.alt = "QR";
-  imgEl.style.opacity = "0";
-  imgEl.style.transform = "translateY(10px)";
-  imgEl.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-  imgEl.style.marginTop = "20px";
-  imgEl.style.width = "60%";
-  imgEl.style.maxWidth = "220px";
-
-  sceneEl.appendChild(textWrapper);
-  sceneEl.appendChild(imgEl);
-
-  // Fade scene in
-  requestAnimationFrame(() => {
-    sceneEl.classList.add("show");
+  lines.forEach(line => {
+    const el = document.createElement("div");
+    el.textContent = line || "\u00A0";
+    el.style.opacity = "0";
+    el.style.transform = "translateY(10px)";
+    el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+    text.appendChild(el);
   });
 
-  // Animate text lines one by one
-  const lineEls = textWrapper.children;
-  Array.from(lineEls).forEach((el, i) => {
+  const qr = document.createElement("img");
+  Object.assign(qr, {
+    src: "images/qr.png",
+    alt: "QR"
+  });
+  Object.assign(qr.style, {
+    opacity: "0",
+    transform: "translateY(10px)",
+    transition: "opacity 0.6s ease, transform 0.6s ease",
+    marginTop: "20px",
+    width: "60%",
+    maxWidth: "220px"
+  });
+
+  sceneEl.append(text, qr);
+  requestAnimationFrame(() => sceneEl.classList.add("show"));
+
+  [...text.children].forEach((el, i) => {
     setTimeout(() => {
       el.style.opacity = "1";
       el.style.transform = "translateY(0)";
     }, 200 + i * 120);
   });
 
-  // Fade in QR after all text
   setTimeout(() => {
-    imgEl.style.opacity = "1";
-    imgEl.style.transform = "translateY(0)";
+    qr.style.opacity = "1";
+    qr.style.transform = "translateY(0)";
   }, 200 + lines.length * 120 + 300);
 }
 

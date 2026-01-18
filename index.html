@@ -4,42 +4,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
   <title>MoMo Minigame 1</title>
 
-  <link rel="icon" type="image/png" href="momo.png">
-  <link rel="apple-touch-icon" href="momo.png">
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="momo.png" />
+  <link rel="apple-touch-icon" href="momo.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-
+  <!-- Phone viewport -->
   <div id="viewport">
-    <div id="game">
+    <main id="game">
 
-      <div id="top-bar">
+      <!-- Top UI -->
+      <header id="top-bar">
         <div id="target">0đ</div>
+
         <div id="timer-wrapper">
-          <svg id="timer-ring" width="48" height="48">
+          <svg id="timer-ring" width="48" height="48" viewBox="0 0 48 48">
             <circle cx="24" cy="24" r="20" fill="none" stroke="#e74c3c" stroke-width="4" stroke-linecap="round" />
           </svg>
+
           <div id="timer">10</div>
         </div>
-      </div>
+      </header>
 
-      <div id="grid"></div>
+      <!-- Products -->
+      <section id="grid"></section>
 
+      <!-- Result (legacy / optional) -->
       <div id="result"></div>
 
-      <div id="scene"></div>
+      <!-- End scene -->
+      <section id="scene"></section>
 
-    </div>
+    </main>
   </div>
 
+  <!-- Logic -->
   <script src="script.js"></script>
 </body>
 

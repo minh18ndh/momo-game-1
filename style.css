@@ -1,3 +1,5 @@
+/* ================= RESET & BASE ================= */
+
 * {
   box-sizing: border-box;
   font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -5,9 +7,11 @@
 
 body {
   margin: 0;
-  background: #ffeeee;
   height: 100vh;
+  background: #ffeeee;
 }
+
+/* ================= VIEWPORT ================= */
 
 #viewport {
   aspect-ratio: 9 / 16;
@@ -16,24 +20,22 @@ body {
 
   width: auto;
   max-width: calc(100vh * 9 / 16);
-
   margin: 0 auto;
 
-  background: url("images/bg.png") center center / cover no-repeat;
-
+  background: url("images/bg.png") center / cover no-repeat;
   position: relative;
 }
 
-/* game content */
+/* ================= GAME CONTAINER ================= */
+
 #game {
   width: 100%;
   padding: 10px;
   padding-top: 300px;
-
   position: relative;
 }
 
-/* ================= UI ================= */
+/* ================= TOP BAR ================= */
 
 #top-bar {
   position: absolute;
@@ -43,10 +45,73 @@ body {
 
   display: flex;
   justify-content: space-between;
-  font-size: 20px;
+  align-items: center;
 
+  font-size: 20px;
   z-index: 10;
 }
+
+/* ================= TARGET ================= */
+
+#target {
+  position: relative;
+  top: 4px;
+
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+
+  transition: transform 0.6s ease, text-shadow 0.6s ease;
+}
+
+#target.pulsing {
+  animation: targetPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes targetPulse {
+  0% {
+    transform: scale(1);
+    text-shadow: 0 0 0 rgba(231, 76, 60, 0);
+  }
+
+  50% {
+    transform: scale(1.12);
+    text-shadow: 0 0 12px rgba(231, 76, 60, 0.6);
+  }
+
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 0 rgba(231, 76, 60, 0);
+  }
+}
+
+/* ================= TIMER ================= */
+
+#timer-wrapper {
+  position: relative;
+  top: 4px;
+  width: 48px;
+  height: 48px;
+}
+
+#timer-ring {
+  transform: rotate(-90deg);
+}
+
+#timer {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+}
+
+/* ================= PRODUCT GRID ================= */
 
 #grid {
   display: grid;
@@ -54,6 +119,8 @@ body {
   gap: 8px;
   align-items: stretch;
 }
+
+/* ================= PRODUCT CARD ================= */
 
 .product {
   display: flex;
@@ -65,13 +132,13 @@ body {
 
   cursor: pointer;
   user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 
-  /* glass effect */
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(0.5px);
   -webkit-backdrop-filter: blur(0.5px);
 
-  /* subtle edge */
   box-shadow:
     0 0.5px 2px rgba(0, 0, 0, 0.08),
     inset 0 0 0 0.5px rgba(255, 255, 255, 0.15);
@@ -81,9 +148,6 @@ body {
     box-shadow 0.12s ease,
     background 0.12s ease,
     opacity 0.4s ease;
-
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .product:active {
@@ -94,7 +158,7 @@ body {
 .product.selected {
   background: rgba(46, 204, 113, 0.18);
   box-shadow:
-    0 0 0 2px rgba(46, 204, 113, 0.9) inset,
+    inset 0 0 0 2px rgba(46, 204, 113, 0.9),
     0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -107,35 +171,37 @@ body {
 .price {
   margin-top: auto;
   padding-top: 8px;
-  font-weight: bold;
+
+  font-weight: 700;
   color: #000;
 }
 
+/* ================= RESULT (OPTIONAL) ================= */
+
 #result {
-  text-align: center;
-  font-size: 36px;
-  font-weight: bold;
   margin-top: 20px;
+  text-align: center;
+
+  font-size: 36px;
+  font-weight: 700;
 }
 
-/* fade animation */
+/* ================= FADE EFFECTS ================= */
+
 .product.fade-out,
 .product.fade-out-all {
   opacity: 0;
   transform: scale(0.9);
 }
 
-/* ================= SCENE TRANSITIONS ================= */
-
 .fade-out-all {
-  opacity: 0;
-  transform: scale(0.95);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
+/* ================= END SCENE ================= */
+
 #scene {
   position: absolute;
-
   top: 350px;
   left: 0;
   right: 0;
@@ -145,12 +211,11 @@ body {
   align-items: center;
 
   text-align: center;
+  pointer-events: none;
 
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.6s ease, transform 0.6s ease;
-
-  pointer-events: none;
 }
 
 #scene.show {
@@ -162,57 +227,4 @@ body {
   margin-top: 16px;
   width: 60%;
   max-width: 220px;
-}
-
-#target {
-  position: relative;
-  top: 6px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #000;
-
-  transition: transform 0.6s ease, text-shadow 0.6s ease;
-}
-
-@keyframes targetPulse {
-  0% {
-    transform: scale(1);
-    text-shadow: 0 0 0 rgba(231, 76, 60, 0);
-  }
-  50% {
-    transform: scale(1.12);
-    text-shadow: 0 0 12px rgba(231, 76, 60, 0.6);
-  }
-  100% {
-    transform: scale(1);
-    text-shadow: 0 0 0 rgba(231, 76, 60, 0);
-  }
-}
-
-#target.pulsing {
-  animation: targetPulse 1.2s ease-in-out infinite;
-}
-
-#timer-wrapper {
-  position: relative;
-  width: 48px;
-  height: 48px;
-}
-
-#timer-ring {
-  transform: rotate(-90deg);
-  /* start from top */
-}
-
-#timer {
-  position: absolute;
-  inset: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 18px;
-  font-weight: bold;
-  color: #000;
 }
