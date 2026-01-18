@@ -33,7 +33,7 @@ function generateTarget() {
   const temp = [...products];
   targetSum = 0;
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
     const r = Math.floor(Math.random() * temp.length);
     targetSum += temp[r];
     temp.splice(r, 1);
@@ -54,7 +54,7 @@ function toggleProduct(el, price) {
     return;
   }
 
-  if (selected.length >= 3) return;
+  if (selected.length >= 5) return;
 
   selected.push({ el, price });
   el.classList.add("selected");
