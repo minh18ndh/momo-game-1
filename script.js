@@ -51,6 +51,8 @@ ring.style.strokeDashoffset = CIRCUMFERENCE;
 let selected = [];
 let timeLeft = GAME_TIME;
 let gameOver = false;
+let fireworksPlaying = false;
+let fireworksFinished = false;
 
 // =====================
 // UTILS
@@ -162,10 +164,19 @@ function playFireworks() {
       autoplay: false,
       path: "images/fireworks_2.json"
     });
+
+    fireworksAnim.addEventListener("complete", () => {
+      fireworksPlaying = false;
+      fireworksFinished = true;
+      fireworksEl.classList.remove("show");
+    });
   }
 
+  fireworksFinished = false;
+  fireworksPlaying = true;
+
   fireworksEl.classList.add("show");
-  fireworksAnim.play();
+  fireworksAnim.goToAndPlay(0, true);
 }
 
 // =====================
@@ -343,4 +354,16 @@ function showScene(lines, color) {
 // =====================
 // START
 // =====================
+document.addEventListener("pointerdown", e => {
+  if (!gameOver) return;
+  if (!fireworksFinished) return;
+
+  const y = e.clientY;
+  const screenMid = window.innerHeight / 2;
+
+  if (y < screenMid) {
+    playFireworks();
+  }
+});
+
 init();
