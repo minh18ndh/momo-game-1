@@ -1,69 +1,112 @@
 * {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
   margin: 0;
-  background: #fff;
-  color: #000;
+  background: #000; /* desktop bars */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-#game {
-  width: 100%;
-  max-width: 420px;
-  padding: 16px;
+/* 9:16 phone frame */
+#viewport {
+  aspect-ratio: 9 / 16;
+  height: 100vh;
+  max-height: 100vh;
+  width: auto;
+  max-width: calc(100vh * 9 / 16);
+
+  background: url("images/bg.png") center center / cover no-repeat;
+
+  display: flex;
+  justify-content: center;
 }
 
+/* game content */
+#game {
+  width: 100%;
+  padding: 10px;
+  padding-top: 300px;
+
+  position: relative;
+}
+
+/* ================= UI ================= */
+
 #top-bar {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+
   display: flex;
   justify-content: space-between;
   font-size: 20px;
-  margin-bottom: 16px;
+
+  z-index: 10;
 }
 
 #grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  align-items: stretch;
 }
 
 .product {
-  border: none;
-  border-radius: 12px;
-  padding: 12px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 10px;
+  border-radius: 10px;
+
   cursor: pointer;
   user-select: none;
-  background: #fff;
 
-  /* subtle depth */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 0.1s, box-shadow 0.1s;
+  /* glass effect */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(0.5px);
+  -webkit-backdrop-filter: blur(0.5px);
+
+  /* subtle edge */
+  box-shadow:
+    0 0.5px 2px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.15);
+
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease,
+    opacity 0.4s ease;
 }
 
 .product:active {
   transform: scale(0.96);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .product.selected {
-  background: #f0fff6;
-  box-shadow: 0 0 0 2px #2ecc71 inset; /* selection outline */
+  background: rgba(46, 204, 113, 0.18);
+  box-shadow:
+    0 0 0 2px rgba(46, 204, 113, 0.9) inset,
+    0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .product img {
   width: 100%;
-  height: auto;
   max-height: 90px;
   object-fit: contain;
 }
 
 .price {
-  margin-top: 8px;
+  margin-top: auto;
+  padding-top: 8px;
   font-weight: bold;
   color: #000;
 }
@@ -75,8 +118,48 @@ body {
   margin-top: 20px;
 }
 
-.product.fade-out {
+/* fade animation */
+.product.fade-out,
+.product.fade-out-all {
   opacity: 0;
   transform: scale(0.9);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ================= SCENE TRANSITIONS ================= */
+
+.fade-out-all {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+#scene {
+  position: absolute;
+
+  top: 400px;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+
+  pointer-events: none;
+}
+
+#scene.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#scene img {
+  margin-top: 16px;
+  width: 60%;
+  max-width: 220px;
 }

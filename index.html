@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -8,24 +9,33 @@
   <link rel="icon" type="image/png" href="momo.png">
   <link rel="apple-touch-icon" href="momo.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-  <div id="game">
+  <div id="viewport">
+    <div id="game">
 
-    <div id="top-bar">
-      <div id="target">0đ</div>
-      <div id="timer">10</div>
+      <div id="top-bar">
+        <div id="target">0đ</div>
+        <div id="timer">10</div>
+      </div>
+
+      <div id="grid"></div>
+
+      <div id="result"></div>
+
+      <div id="scene"></div>
+
     </div>
-
-    <div id="grid"></div>
-
-    <div id="result"></div>
-
   </div>
 
   <script src="script.js"></script>
 </body>
+
 </html>
