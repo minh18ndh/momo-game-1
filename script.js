@@ -3,7 +3,7 @@
 // =====================
 const TARGET_SUM = 2_000_000;
 const PICK_COUNT = 5;
-const GAME_TIME = 5;
+const GAME_TIME = 10;
 
 const products = [
   { price: 150000, img: "images/pomelo.png" },
