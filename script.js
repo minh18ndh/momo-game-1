@@ -154,18 +154,18 @@ function startTimer() {
 // FIREWORKS
 // =====================
 function playFireworks() {
-    if (!fireworksAnim) {
-      fireworksAnim = lottie.loadAnimation({
-        container: fireworksEl,
-        renderer: "svg",
-        loop: false,
-        autoplay: false,
-        path: "images/fireworks.json"
-      });
-    }
+  if (!fireworksAnim) {
+    fireworksAnim = lottie.loadAnimation({
+      container: fireworksEl,
+      renderer: "svg",
+      loop: false,
+      autoplay: false,
+      path: "images/fireworks.json"
+    });
+  }
 
-    fireworksEl.classList.add("show");
-    fireworksAnim.play();
+  fireworksEl.classList.add("show");
+  fireworksAnim.play();
 }
 
 // =====================
