@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #111;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#game {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px;
+}
+
+#top-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+#grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.product {
+  background: #222;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s, background 0.1s;
+}
+
+.product:active {
+  transform: scale(0.96);
+}
+
+.product.selected {
+  background: #2ecc71;
+  color: #000;
+}
+
+.price {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+#result {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: 20px;
+}
