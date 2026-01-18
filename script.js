@@ -126,8 +126,19 @@ async function endGame() {
 
   // Not enough selected
   if (selected.length !== PICK_COUNT) {
-    resultEl.textContent = "Hic chưa chọn đủ món rồi";
-    resultEl.style.color = "#e67e22";
+    await fadeOutRemainingProducts();
+
+    showScene(
+      [
+        "Hic chưa chọn đủ món rồi,",
+        "reload chơi lại ik",
+        "",
+        "Để MoMo AI Expense Management",
+        "theo dõi chi tiêu cùng bạn."
+      ],
+      "#a20262"
+    );
+
     return;
   }
 
@@ -240,19 +251,19 @@ function showScene(lines, color) {
   if (typeof lines === "string") {
     lines = [lines];
   }
-  
+
   sceneEl.innerHTML = "";
 
   const textWrapper = document.createElement("div");
   textWrapper.style.textAlign = "center";
   textWrapper.style.color = color;
-  textWrapper.style.fontSize = "24px";
+  textWrapper.style.fontSize = "22px";
   textWrapper.style.fontWeight = "600";
   textWrapper.style.lineHeight = "1.35";
 
   lines.forEach((line, i) => {
     const lineEl = document.createElement("div");
-    lineEl.style.fontWeight = "800"; 
+    lineEl.style.fontWeight = "800";
     lineEl.textContent = line || "\u00A0"; // keep empty line spacing
     lineEl.style.opacity = "0";
     lineEl.style.transform = "translateY(10px)";

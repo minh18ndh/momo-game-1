@@ -53,7 +53,7 @@ body {
 #grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 8px;
   align-items: stretch;
 }
 
@@ -62,7 +62,7 @@ body {
   flex-direction: column;
   align-items: center;
 
-  padding: 10px;
+  padding: 8px;
   border-radius: 10px;
 
   cursor: pointer;
@@ -136,7 +136,7 @@ body {
 #scene {
   position: absolute;
 
-  top: 400px;
+  top: 350px;
   left: 0;
   right: 0;
 
