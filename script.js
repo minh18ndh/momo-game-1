@@ -66,8 +66,6 @@ function init() {
   targetEl.textContent = `${TARGET_SUM.toLocaleString()}đ`;
   timerEl.textContent = GAME_TIME;
 
-  targetEl.classList.add("pulsing");
-
   shuffle(products);
   renderProducts();
   startTimer();
@@ -122,6 +120,7 @@ function toggleProduct(el, price) {
 function startTimer() {
   const start = Date.now();
   const duration = GAME_TIME * 1000;
+  let pulseStarted = false;
 
   const tick = setInterval(() => {
     if (gameOver) return;
@@ -131,6 +130,12 @@ function startTimer() {
 
     timeLeft = Math.max(0, GAME_TIME - Math.floor(elapsed / 1000));
     timerEl.textContent = timeLeft;
+
+    // start pulsing at 5s
+    if (timeLeft <= 5 && !pulseStarted) {
+      targetEl.classList.add("pulsing");
+      pulseStarted = true;
+    }
 
     ring.style.strokeDashoffset =
       CIRCUMFERENCE * (1 - progress);

@@ -65,7 +65,7 @@ body {
 }
 
 #target.pulsing {
-  animation: targetPulse 1.2s ease-in-out infinite;
+  animation: targetPulse 1s ease-in-out infinite;
 }
 
 @keyframes targetPulse {
