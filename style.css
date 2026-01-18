@@ -33,14 +33,17 @@ body {
 }
 
 .product {
-  border: 1px solid #ddd;
+  border: none;
   border-radius: 12px;
   padding: 12px;
   text-align: center;
   cursor: pointer;
   user-select: none;
   background: #fff;
-  transition: transform 0.1s, border-color 0.1s;
+
+  /* subtle depth */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .product:active {
@@ -48,8 +51,8 @@ body {
 }
 
 .product.selected {
-  border-color: #2ecc71;
   background: #f0fff6;
+  box-shadow: 0 0 0 2px #2ecc71 inset; /* selection outline */
 }
 
 .product img {
