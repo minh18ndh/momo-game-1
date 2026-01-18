@@ -5,8 +5,8 @@
 
 body {
   margin: 0;
-  background: #111;
-  color: #fff;
+  background: #fff;
+  color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,13 +33,14 @@ body {
 }
 
 .product {
-  background: #222;
+  border: 1px solid #ddd;
   border-radius: 12px;
   padding: 12px;
   text-align: center;
   cursor: pointer;
   user-select: none;
-  transition: transform 0.1s, background 0.1s;
+  background: #fff;
+  transition: transform 0.1s, border-color 0.1s;
 }
 
 .product:active {
@@ -47,13 +48,21 @@ body {
 }
 
 .product.selected {
-  background: #2ecc71;
-  color: #000;
+  border-color: #2ecc71;
+  background: #f0fff6;
+}
+
+.product img {
+  width: 100%;
+  height: auto;
+  max-height: 90px;
+  object-fit: contain;
 }
 
 .price {
   margin-top: 8px;
   font-weight: bold;
+  color: #000;
 }
 
 #result {
