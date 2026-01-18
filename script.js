@@ -73,7 +73,10 @@ function createProducts() {
       <div class="price">${p.price.toLocaleString()}đ</div>
     `;
 
-    div.onclick = () => toggleProduct(div, p.price);
+    div.addEventListener("pointerdown", () => {
+      toggleProduct(div, p.price);
+    });
+
     grid.appendChild(div);
   });
 }
