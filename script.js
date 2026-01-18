@@ -33,6 +33,9 @@ const sceneEl = document.getElementById("scene");
 
 const ring = document.querySelector("#timer-ring circle");
 
+const fireworksEl = document.getElementById("fireworks");
+let fireworksAnim = null;
+
 // =====================
 // TIMER RING SETUP
 // =====================
@@ -148,6 +151,24 @@ function startTimer() {
 }
 
 // =====================
+// FIREWORKS
+// =====================
+function playFireworks() {
+    if (!fireworksAnim) {
+      fireworksAnim = lottie.loadAnimation({
+        container: fireworksEl,
+        renderer: "svg",
+        loop: false,
+        autoplay: false,
+        path: "images/fireworks.json"
+      });
+    }
+
+    fireworksEl.classList.add("show");
+    fireworksAnim.play();
+}
+
+// =====================
 // END GAME
 // =====================
 async function endGame() {
@@ -181,6 +202,7 @@ async function endGame() {
   await fadeOutRemainingProducts();
 
   if (remaining === 0) {
+    playFireworks();
     showScene(
       [
         "Chuẩn thần đồng tính toán rồi!!",

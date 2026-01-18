@@ -111,6 +111,26 @@ body {
   color: #000;
 }
 
+/* ================= FIREWORKS ================= */
+
+#fireworks {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100%;
+  max-width: 360px;
+  height: 300px;
+
+  pointer-events: none;
+  opacity: 0;
+}
+
+#fireworks.show {
+  opacity: 1;
+}
+
 /* ================= PRODUCT GRID ================= */
 
 #grid {
@@ -176,7 +196,7 @@ body {
   color: #000;
 }
 
-/* ================= RESULT (OPTIONAL) ================= */
+/* ================= RESULT ================= */
 
 #result {
   margin-top: 20px;
