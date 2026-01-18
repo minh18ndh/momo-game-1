@@ -52,7 +52,7 @@ function init() {
   targetEl.textContent = `${TARGET_SUM.toLocaleString()}đ`;
   timerEl.textContent = timeLeft;
 
-  shuffle(products); // shuffle layout every load
+  shuffle(products);
   createProducts();
   startTimer();
 }
@@ -85,14 +85,12 @@ function toggleProduct(el, price) {
 
   const idx = selected.findIndex(p => p.el === el);
 
-  // Unselect
   if (idx !== -1) {
     selected.splice(idx, 1);
     el.classList.remove("selected");
     return;
   }
 
-  // Max selection check
   if (selected.length >= PICK_COUNT) return;
 
   selected.push({ el, price });
@@ -119,18 +117,71 @@ function startTimer() {
 // =====================
 // END GAME
 // =====================
-function endGame() {
+async function endGame() {
   gameOver = true;
+  grid.style.pointerEvents = "none";
 
-  const sum = selected.reduce((acc, p) => acc + p.price, 0);
+  // Not enough items
+  if (selected.length !== PICK_COUNT) {
+    resultEl.textContent = "Hic chưa chọn đủ món rồi";
+    resultEl.style.color = "#e67e22";
+    return;
+  }
 
-  if (selected.length === PICK_COUNT && sum === TARGET_SUM) {
-    resultEl.textContent = "YOU WIN";
+  let remaining = TARGET_SUM;
+
+  for (const item of selected) {
+    await fadeOutProduct(item.el);
+    await animateSubtract(item.price, remaining);
+    remaining -= item.price;
+  }
+
+  if (remaining === 0) {
+    resultEl.textContent = "Thần đồng à";
     resultEl.style.color = "#2ecc71";
+  } else if (remaining > 0) {
+    resultEl.textContent = "Tiền còn";
+    resultEl.style.color = "#f39c12";
   } else {
-    resultEl.textContent = "YOU LOSE";
+    resultEl.textContent = "Ối";
     resultEl.style.color = "#e74c3c";
   }
+}
+
+// =====================
+// ANIMATIONS
+// =====================
+function fadeOutProduct(el) {
+  return new Promise(resolve => {
+    el.classList.add("fade-out");
+    setTimeout(() => {
+      el.style.visibility = "hidden";
+      resolve();
+    }, 400);
+  });
+}
+
+function animateSubtract(amount, startValue) {
+  return new Promise(resolve => {
+    let current = startValue;
+    const end = startValue - amount;
+    const step = Math.max(1, Math.floor(amount / 40));
+
+    function tick() {
+      current -= step;
+      if (current <= end) current = end;
+
+      targetEl.textContent = `${current.toLocaleString()}đ`;
+
+      if (current === end) {
+        resolve();
+      } else {
+        requestAnimationFrame(tick);
+      }
+    }
+
+    tick();
+  });
 }
 
 // =====================
