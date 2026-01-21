@@ -28,9 +28,9 @@ const products = [
 // =====================
 const startScreen = document.getElementById("start-screen");
 const startBtn = document.getElementById("start-btn");
-
-const grid = document.getElementById("grid");
 const topBar = document.getElementById("top-bar");
+const grid = document.getElementById("grid");
+
 const targetEl = document.getElementById("target");
 const timerEl = document.getElementById("timer");
 const sceneEl = document.getElementById("scene");
@@ -392,7 +392,7 @@ document.addEventListener("pointerdown", e => {
 });
 
 startBtn.addEventListener("click", () => {
-  startBtn.style.display = "none";
+  startScreen.style.display = "none";
   showGameUI();
   init();
 });

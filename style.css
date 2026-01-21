@@ -44,29 +44,67 @@ body {
 
 /* ================= START SCREEN ================= */
 
-#start-btn {
+#start-screen {
   position: absolute;
-  top: 200%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
 
-  padding: 14px 28px;
-  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: transparent;
+  z-index: 50;
+}
+
+.start-content {
+  text-align: center;
+  padding: 24px;
+
+  transform: translateY(350px);
+}
+
+.start-text {
+  font-size: 28px;
+  line-height: 1.4;
+  font-weight: 800;
+  color: #a20262;
+  margin-bottom: 28px;
+}
+
+.start-text strong {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+#start-btn {
+  font-size: 20px;
   font-weight: 700;
-  border-radius: 999px;
+  padding: 14px 36px;
 
   border: none;
+  border-radius: 999px;
   background: #a20262;
   color: #fff;
 
   cursor: pointer;
-  z-index: 20;
-
-  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  animation: startBounce 1.2s ease-in-out infinite;
 }
 
 #start-btn:active {
-  transform: translate(-50%, -50%) scale(0.96);
+  animation-play-state: paused;
+  transform: scale(0.96);
+}
+
+@keyframes startBounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 /* ================= TOP BAR ================= */
