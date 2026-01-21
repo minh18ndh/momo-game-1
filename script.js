@@ -40,6 +40,9 @@ const ring = document.querySelector("#timer-ring circle");
 const fireworksEl = document.getElementById("fireworks");
 let fireworksAnim = null;
 
+const GREEN = [46, 204, 113]; // #5ab267
+const RED = [231, 76, 60]; // #e74c3c
+
 // =====================
 // START
 // =====================
@@ -87,6 +90,17 @@ function shuffle(arr) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+}
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function lerpColor(from, to, t) {
+  const r = Math.round(lerp(from[0], to[0], t));
+  const g = Math.round(lerp(from[1], to[1], t));
+  const b = Math.round(lerp(from[2], to[2], t));
+  return `rgb(${r}, ${g}, ${b})`;
 }
 
 // =====================
@@ -157,6 +171,8 @@ function startTimer() {
 
     const elapsed = Date.now() - start;
     const progress = Math.min(elapsed / duration, 1);
+    const color = lerpColor(GREEN, RED, progress);
+    ring.style.stroke = color;
 
     timeLeft = Math.max(0, GAME_TIME - Math.floor(elapsed / 1000));
     timerEl.textContent = timeLeft;
