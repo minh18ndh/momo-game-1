@@ -26,7 +26,11 @@ const products = [
 // =====================
 // DOM
 // =====================
+const startScreen = document.getElementById("start-screen");
+const startBtn = document.getElementById("start-btn");
+
 const grid = document.getElementById("grid");
+const topBar = document.getElementById("top-bar");
 const targetEl = document.getElementById("target");
 const timerEl = document.getElementById("timer");
 const sceneEl = document.getElementById("scene");
@@ -35,6 +39,27 @@ const ring = document.querySelector("#timer-ring circle");
 
 const fireworksEl = document.getElementById("fireworks");
 let fireworksAnim = null;
+
+// =====================
+// START
+// =====================
+function hideGameUI() {
+  topBar.style.opacity = "0";
+  grid.style.opacity = "0";
+
+  topBar.style.pointerEvents = "none";
+  grid.style.pointerEvents = "none";
+}
+
+function showGameUI() {
+  topBar.style.opacity = "1";
+  grid.style.opacity = "1";
+
+  topBar.style.pointerEvents = "auto";
+  grid.style.pointerEvents = "auto";
+}
+
+hideGameUI();
 
 // =====================
 // TIMER RING SETUP
@@ -366,4 +391,8 @@ document.addEventListener("pointerdown", e => {
   }
 });
 
-init();
+startBtn.addEventListener("click", () => {
+  startBtn.style.display = "none";
+  showGameUI();
+  init();
+});

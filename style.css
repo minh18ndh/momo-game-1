@@ -11,6 +11,13 @@ body {
   background: #ffeeee;
 }
 
+#top-bar,
+#grid,
+#scene {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ================= VIEWPORT ================= */
 
 #viewport {
@@ -33,6 +40,33 @@ body {
   padding: 10px;
   padding-top: 300px;
   position: relative;
+}
+
+/* ================= START SCREEN ================= */
+
+#start-btn {
+  position: absolute;
+  top: 200%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 14px 28px;
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: 999px;
+
+  border: none;
+  background: #a20262;
+  color: #fff;
+
+  cursor: pointer;
+  z-index: 20;
+
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+#start-btn:active {
+  transform: translate(-50%, -50%) scale(0.96);
 }
 
 /* ================= TOP BAR ================= */
